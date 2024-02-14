@@ -1,6 +1,6 @@
-package authentication.maintask.controller;
+package authentication.maintask.controller; 
 
-public class User {
+public class User{
 	private String username;
 	private String id;
 	private String token;
