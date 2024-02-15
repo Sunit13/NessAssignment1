@@ -1,6 +1,5 @@
 package authentication.maintask.controller;
 
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -16,13 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-//import javax.servlet.http.HttpSession;
 
 @Service
 public class AuthService {
 	
-	//@Autowired
-	//private HttpSession httpsession;
 	
     private final Map<String, String> userTokenMap = new HashMap<String, String>();
     
@@ -109,18 +105,21 @@ public class AuthService {
     	}
     
     // This method is used for changing the directory for current session
-//    public String ChangeDirectory(String token, String directory) {
-//    	if(validateToken(token)) {
-//        	String newPath = "/home/v7500451/"+ directory;
-//        	File file = new File(newPath);
-//            
-//            if (file.exists() || file.isDirectory()) {
-//            	httpsession.setAttribute("currentDirectory", newPath);
-//                return "{\"cwd\" + newPath}";
-//            }
-//    	}
-//    	return "{\"File does not exist\"}";
-//    }
+   public String ChangeDirectory(String token, String directory) {
+        if(validateToken(token)) {
+            String absolutePath = "/home/v7500451/"+ directory;
+            // Create a File object representing the new directory
+            File newDirectory = new File(absolutePath);
+
+            // Check if the directory exists and is a directory
+            if (newDirectory.exists() && newDirectory.isDirectory()) {
+                // Change the current working directory
+                System.setProperty("user.dir", absolutePath);
+                return "{\"cwd\": \"" + absolutePath + "\"}";
+            }
+        }
+        return "{\"File does not exist\"}";
+    }
     
     // This method is for removing the token after applying logout api
     public void removeToken(User user) {
@@ -142,5 +141,4 @@ public class AuthService {
 
         return token;
     }
-    
 }
