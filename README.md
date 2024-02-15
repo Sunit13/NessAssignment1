@@ -6,11 +6,13 @@
     It maintains a map (userTokenMap) to store the mapping between usernames and tokens.
 
 2] Endpoints:
-    The main endpoint is /restapi/login, which handles user login.
-    Upon receiving a POST request with a user object containing a username, it generates a token and returns it in a JSON response.
-    The another endpoint is /restapi/logout, which handles user logout API.
-  When User calls this api then with the help of username the token gets  removed from the data structure and return null.
-  
+    A]:- The main endpoint is /restapi/login, which handles user login.
+          Upon receiving a POST request with a user object containing a username, it generates a token and returns it in a JSON response.
+    B]:- The another endpoint is /restapi/logout, which handles user logout API.
+          When User calls this api then with the help of username the token gets  removed from the data structure and return null.
+    c]:- The another endpoints are /restapi/cwd, /restapi/ls and /restapi/cd/{directory} which fetch user current working directory, list of directories and files and last one is for changing the cureent directory. 
+          This methods firstly checks token is active or not with help of RequestHeader. If token is active then only display actual results otherwise display the message.
+
 3] Token Generation:
     Tokens are generated using JWT.
     Each token is associated with a username and has an expiration time.
@@ -40,3 +42,5 @@
 3] CURL Command
     With help of curl command you can run this application.
     eg:- If request is post:-  curl -X POST -d '{"username": "sunit"}' -H "Content-Type: application/json" http://localhost:8080/restapi/login
+    
+    eg:- I frequest is Get:- curl -H "Authorization: Bearer qecvbnhygfloritjgn" -H "Content-Type: application/json" http://localhost:8080/restapi/cwd
