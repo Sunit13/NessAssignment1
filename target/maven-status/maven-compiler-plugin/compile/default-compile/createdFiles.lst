@@ -1,5 +1,6 @@
 authentication/maintask/controller/FileInformation.class
 authentication/maintask/controller/MainController.class
 authentication/maintask/controller/User.class
+authentication/maintask/controller/SessionManager.class
 authentication/maintask/Authentication.class
 authentication/maintask/controller/AuthService.class

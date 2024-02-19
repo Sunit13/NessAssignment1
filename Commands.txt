@@ -1,0 +1,41 @@
+To run this project Firstly you should run this commands
+	A] For creating jar file:- mvn clean install
+	B] To run jar file and project:- java -jar target/maintask-0.0.1-SNAPSHOT.jar 
+
+
+							** Sign in **
+Every token has 5 minutes expiration time you want to generate new token after every 5 minutes with help of this command:- 
+	curl -X POST -d '{"username":"your_username"}' -H "Content-Type: application/json" http://localhost:8080/restapi/login
+	 
+Api:- 	@RequestMapping(method=RequestMethod.POST, value="/restapi/login")
+Curl Command:- curl -X POST -d '{"username":"sunit"}' -H "Content-Type: application/json" http://localhost:8080/restapi/login 
+Output: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI4Mzk1ZjJjMy00MmNkLTQzNjUtOGI0ZC1jMWE0MzNmNTg2OTQiLCJzdWIiOiJzdW5pdCIsImV4cCI6MTcwODA2NjcxN30.LjslhlVgf27cDkhlNo2CLQR2OzzVu2ysvQvCxU7ZgQ9KZn3co2maWAfFixaX77-ut3KvBjd8vsSuXdhsHdkKfQ
+
+
+					** For fetching current working directory use this API **
+				This api is works on authorization token if user is login and the user provide token then it return actual output else displays Invalid token message.
+Api:- @RequestMapping(method=RequestMethod.GET, value="/restapi/cwd")
+curl Command:- curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI4Mzk1ZjJjMy00MmNkLTQzNjUtOGI0ZC1jMWE0MzNmNTg2OTQiLCJzdWIiOiJzdW5pdCIsImV4cCI6MTcwODA2NjcxN30.LjslhlVgf27cDkhlNo2CLQR2OzzVu2ysvQvCxU7ZgQ9KZn3co2maWAfFixaX77-ut3KvBjd8vsSuXdhsHdkKfQ" -H "Content-Type: application/json" http://localhost:8080/restapi/cwd
+Output:- {"cwd": "/home/v7500451/SpringBootTasks/maintask"}
+
+					** For fetching the list of files and directories **
+				This api is works on authorization token if user is login and the user provide token then it return actual output else displays Invalid token message. 
+Api:- 	@RequestMapping(method=RequestMethod.GET, value="/restapi/ls")
+This api is works on authorization token if user is login and the user provide token then it return actual output else return Invalid token.
+curl command:- curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI4Mzk1ZjJjMy00MmNkLTQzNjUtOGI0ZC1jMWE0MzNmNTg2OTQiLCJzdWIiOiJzdW5pdCIsImV4cCI6MTcwODA2NzUwN30.V3rePGR0ppT4TnK_L188UjgR0CsQSCezCylqfI-PsXmaZmOCkUgoduumSoVFXF55lbN6BBEs66VdEIBY8-w3oA" -H "Content-Type: application/json" http://localhost:8080/restapi/ls
+output:- {"ls": [{"name": "target", "type": "DIRECTORY"}, {"name": "pom.xml", "type": "FILE"}, {"name": ".classpath", "type": "FILE"}, {"name": ".git", "type": "DIRECTORY"}, {"name": "Commands.txt", "type": "FILE"}, {"name": ".project", "type": "FILE"}, {"name": "README.md", "type": "FILE"}, {"name": ".settings", "type": "DIRECTORY"}, {"name": "src", "type": "DIRECTORY"}]}
+
+
+						** For changing the directory use this api **
+Api:- @RequestMapping(method=RequestMethod.GET, value="/restapi/cd/{directory}")
+curl command:- curl -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0ZWZkYjZhNC03ZTNkLTRmMzYtYjQ4YS1kMWEzZjA0OGFhYWEiLCJzdWIiOiJzdW5pdCIsImV4cCI6MTcwODM0MDE4MH0.HnexDKcQDYDqX1Ie9_x-FOTQtYSPMQD30zmHvT_YTpsR76466e1PXWldasd0BTqYMYDrJO6UiJ4zG8H3VbaRVg" -H "Content-Type: application/json" http://localhost:8080/restapi/cd/Downloads
+Output:- {"cwd": "/home/v7500451/Downloads"}
+
+
+							** For logout session ** 
+Api:- 	@RequestMapping(method=RequestMethod.POST, value="/restapi/logout")
+curl command:- curl -X POST -d '{"username":"sunit"}' -H "Content-Type: application/json" http://localhost:8080/restapi/logout
+						** This message shows on console **
+output:- Session loggedout sucessfully
+null
+

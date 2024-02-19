@@ -1,5 +1,6 @@
 /home/v7500451/SpringBootTasks/maintask/src/main/java/authentication/maintask/controller/MainController.java
 /home/v7500451/SpringBootTasks/maintask/src/main/java/authentication/maintask/controller/FileInformation.java
 /home/v7500451/SpringBootTasks/maintask/src/main/java/authentication/maintask/controller/User.java
+/home/v7500451/SpringBootTasks/maintask/src/main/java/authentication/maintask/controller/SessionManager.java
 /home/v7500451/SpringBootTasks/maintask/src/main/java/authentication/maintask/Authentication.java
 /home/v7500451/SpringBootTasks/maintask/src/main/java/authentication/maintask/controller/AuthService.java

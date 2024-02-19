@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+// This class mange my all api with help of restcontroller.
+
 @RestController
 public class MainController {
 	
@@ -93,7 +95,7 @@ public class MainController {
 	        	return new ResponseEntity<String>("Invalid token", HttpStatus.UNAUTHORIZED);
 	        }
 		
-		String newdir = authservice.ChangeDirectory(authtoken, directory);
+		String newdir = authservice.changeDirectory(authtoken, directory);
 		return new ResponseEntity<String>(newdir,HttpStatus.OK);
 	}
 	
@@ -105,4 +107,6 @@ public class MainController {
 		System.out.println("Session loggedout sucessfully");
 		System.out.println(token);
 	}
+	
+	
 }

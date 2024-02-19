@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
+
 @Service
 public class AuthService {
 	
@@ -26,7 +27,7 @@ public class AuthService {
     private static final String SECRET_KEY = "nessSunit451";
     private static final long EXPIRATION_TIME = 5 * 60 * 1000;
     
-    // This method is used for generating the token and checking for token expiration
+    //1:- This method is used for generating the token and checking for token expiration
     public String generateToken(User user) {
         // Set expiration time
         Date now = new Date();
@@ -73,61 +74,96 @@ public class AuthService {
     }
     
     
-    // This method is used for fetching the current working directory
+    //2:- This method is used for fetching the current working directory
     public String getDirectory(String token) {
     	if(validateToken(token)) {
-        	String path = System.getProperty("user.dir");
-        	return "{\"cwd\": \"" + path + "\"}";
+    		String username = getUsernameFromToken(token);
+    		if(username != null) {
+    	        String directory = SessionManager.getSessionData(username);
+    	        if (directory != null) {
+    	            return "{\"cwd\": \"" + directory + "\"}";
+    	        } else {
+    	            // If directory is not found in session data, then showing current directory
+    	            String path = System.getProperty("user.dir");
+    	            return "{\"cwd\": \"" + path + "\"}";
+    	        }
+    		}
     	}
     	String str= "This is a testing current working directory";
     	return str;
     }
     
-    // This method is used for fetching list of directory and files
+    //3:- This method is used for fetching list of directory and files
     public String listFilesInfo(String token) {
     	if(validateToken(token)) {
-    		String directory = System.getProperty("user.dir");
-    		File currentDirectory = new File(directory);
-    		File[] files = currentDirectory.listFiles();
-    		if (files == null) {
-    			return "{can not access the current directory\"}";
-    		}
-    		List<FileInformation> fileinfoList = new ArrayList<FileInformation>();
-    		for (File file : files) {
-    			FileInformation metadata = new FileInformation();
-    			metadata.setName(file.getName());
-    			metadata.setType(file.isDirectory() ? "DIRECTORY" : "FILE");
-    			fileinfoList.add(metadata);
+    		String username = getUsernameFromToken(token);
+    		if(username != null) {
+    			String dir = SessionManager.getSessionData(username);
+    			if(dir != null) {
+    				File changedir = new File(dir);
+    				File[] chfiles = changedir.listFiles();
+    				
+    				if(chfiles == null) {
+    					return "{can not acess current directory\"}";
+    				}
+    				List<FileInformation> chfileinfolist = new ArrayList<FileInformation>();
+    				
+    				for(File file1 : chfiles) {
+    					FileInformation chfiledata = new FileInformation();
+    					chfiledata.setName(file1.getName());
+    					chfiledata.setType(file1.isDirectory() ? "DIRECTORY" : "FILE");
+    					chfileinfolist.add(chfiledata);
+    				}
+    				return "{\"ls\": " + chfileinfolist.toString() + "}";
     			}
-    		return "{\"ls\": " + fileinfoList.toString() + "}";
-    		}
+    		else {
+    			String directory = System.getProperty("user.dir");
+    			File currentDirectory = new File(directory);
+    			File[] files = currentDirectory.listFiles();
+    			if (files == null) {
+    				return "{can not access the current directory\"}";
+    				}
+    			List<FileInformation> fileinfoList = new ArrayList<FileInformation>();
+    			for (File file : files) {
+    				FileInformation metadata = new FileInformation();
+    				metadata.setName(file.getName());
+    				metadata.setType(file.isDirectory() ? "DIRECTORY" : "FILE");
+    				fileinfoList.add(metadata);
+    				}
+    			return "{\"ls\": " + fileinfoList.toString() + "}";
+    			}
+    	}
+    	}
     	return null;
     	}
     
-    // This method is used for changing the directory for current session
-   public String ChangeDirectory(String token, String directory) {
-        if(validateToken(token)) {
-            String absolutePath = "/home/v7500451/"+ directory;
+    //4:- This method is used for changing the directory for current session
+    public String changeDirectory(String token, String directory) {
+        if (validateToken(token)) {
+            String absolutePath = "/home/v7500451/" + directory;
             // Create a File object representing the new directory
             File newDirectory = new File(absolutePath);
 
             // Check if the directory exists and is a directory
             if (newDirectory.exists() && newDirectory.isDirectory()) {
-                // Change the current working directory
-                System.setProperty("user.dir", absolutePath);
+                // Update the session data with the new directory path
+                String username = getUsernameFromToken(token);
+                SessionManager.setSessionData(username, absolutePath);
                 return "{\"cwd\": \"" + absolutePath + "\"}";
             }
         }
-        return "{\"File does not exist\"}";
+        return "{\"error\": \"Directory does not exist\"}";
     }
     
-    // This method is for removing the token after applying logout api
+    //5:- This method is for removing the token and directory from map after applying logout api
     public void removeToken(User user) {
+    	SessionManager.removeSessionData();
     	userTokenMap.remove(user.getUsername());
     }
+    
 
     
-    // This method is also used for generate token.
+    // This method is  used for generate token.
     private String generateNewToken(User user, Date expiryDate) {
         // Generate random token
         String token = Jwts.builder().setId(id)
@@ -140,5 +176,15 @@ public class AuthService {
         userTokenMap.put(user.getUsername(), token);
 
         return token;
+    }
+    
+    // This method is used for fetch username from token and add into the new map which is sessionData.
+    public String getUsernameFromToken(String token) {
+        try {
+            Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+            return claims.getSubject();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package authentication.maintask.controller; 
 
+// We create username and token with help of this class. 
+
 public class User{
 	private String username;
 	private String id;
