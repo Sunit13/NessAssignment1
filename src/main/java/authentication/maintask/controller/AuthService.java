@@ -140,7 +140,8 @@ public class AuthService {
     //4:- This method is used for changing the directory for current session
     public String changeDirectory(String token, String directory) {
         if (validateToken(token)) {
-            String absolutePath = "/home/v7500451/" + directory;
+            String homeDirectory = System.getProperty("user.home");
+            String absolutePath = homeDirectory+ "/" + directory;
             // Create a File object representing the new directory
             File newDirectory = new File(absolutePath);
 
