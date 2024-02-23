@@ -42,5 +42,6 @@
 3] CURL Command
     With help of curl command you can run this application.
     eg:- If request is post:-  curl -X POST -d '{"username": "sunit"}' -H "Content-Type: application/json" http://localhost:8080/restapi/login
-    
-    eg:- I frequest is Get:- curl -H "Authorization: Bearer qecvbnhygfloritjgn" -H "Content-Type: application/json" http://localhost:8080/restapi/cwd
+    	output:- token: qecvbnhygfloritjgn
+    	
+    eg:- If request is Get:- curl -H "Authorization: Bearer qecvbnhygfloritjgn" -H "Content-Type: application/json" http://localhost:8080/restapi/cwd
