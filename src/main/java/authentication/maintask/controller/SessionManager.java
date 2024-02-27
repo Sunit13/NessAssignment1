@@ -6,7 +6,7 @@ import java.util.Map;
 // In this class I can store the username and directory of that user. 
 
 public class SessionManager {
-	   private static Map<String, String> sessionData = new HashMap<String, String>();
+	   public static Map<String, String> sessionData = new HashMap<String, String>();
 
 	    public static void setSessionData(String token, String directory) {
 	        sessionData.put(token, directory);
@@ -17,6 +17,6 @@ public class SessionManager {
 	    }
 	    
 	    public static void removeSessionData() {
-	        sessionData.clear();
+			sessionData.clear();
 	    }
 }
