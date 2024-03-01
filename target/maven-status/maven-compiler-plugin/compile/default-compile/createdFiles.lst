@@ -1,6 +1,11 @@
-authentication/maintask/controller/FileInformation.class
-authentication/maintask/controller/MainController.class
-authentication/maintask/controller/User.class
-authentication/maintask/controller/SessionManager.class
+authentication/maintask/authpojoclasses/SessionManager.class
+authentication/maintask/authdtoclasses/AuthorizationResponseDTo.class
+authentication/maintask/controller/ApiController.class
+authentication/maintask/authdtoclasses/FileInformationListDTO.class
+authentication/maintask/authpojoclasses/User.class
+authentication/maintask/authdtoclasses/DirectoryResponse.class
+authentication/maintask/apiservices/AuthService.class
+authentication/maintask/authdtoclasses/Status.class
+authentication/maintask/authdtoclasses/LogoutResponseDTo.class
+authentication/maintask/authpojoclasses/FileInformation.class
 authentication/maintask/Authentication.class
-authentication/maintask/controller/AuthService.class
